@@ -1,0 +1,42 @@
+table {
+	table-layout:fixed;
+	border: 1px;
+}
+.top {
+	padding-top: 100px;
+}
+.row {
+	margin: 15px;
+}
+.help-block {
+	color: red;
+}
+.help-inline {
+	color: red;
+}
+td {
+	overflow:hidden; 
+	width:50px; 
+	word-wrap: break-word;
+}
+img {
+	max-height:100%; max-width:100%
+}
+
+@media only screen and (min-width: 768px) {
+	button {
+		width: auto;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+  	button {
+  		width: 10px;
+  	}
+  	table{
+        display: block;
+    }
+    ul {
+    	display: none;
+    }
+}
