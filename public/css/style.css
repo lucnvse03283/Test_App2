@@ -1,0 +1,46 @@
+table {
+	table-layout:fixed;
+	border: 1px;
+}
+.top {
+	padding-top: 100px;
+}
+.row {
+	margin: 15px;
+}
+.form-group {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.help-block {
+	color: red;
+}
+.help-inline {
+	color: red;
+}
+td {
+	overflow:hidden; 
+	width:50px; 
+	word-wrap: break-word;
+}
+img {
+	max-height:100%; max-width:100%
+}
+
+@media only screen and (min-width: 768px) {
+	button {
+		width: auto;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+  	button.btn-add {
+  		width: auto;
+  	}
+  	table{
+        display: block;
+    }
+    ul {
+    	display: none;
+    }
+}
