@@ -49,11 +49,13 @@ class MembersController extends Controller
         $member->age = $input_data["age"];
 
         if($file = $request->hasFile('image')) {
-            $file = $request->file('image') ;
+            $file = $request->file('image') ; 
             $fileName = $file->getClientOriginalName() ;
             $destinationPath = public_path().'/images/' ;
             $file->move($destinationPath,$fileName);
             $member->image = $fileName ;
+        } else {
+            $member->image = "";
         }
         $member->save();
 

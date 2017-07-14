@@ -11,8 +11,14 @@
     <script src="https://code.angularjs.org/1.6.4/angular-route.js"></script>      
     
     <script src="{{ asset('/app/app.js') }}"></script>
-
+    <script src="{{ asset('/js/ng-file-upload.js') }}"></script>
+    <script src="{{ asset('/js/ng-file-upload.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/ng-file-upload-all.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/ng-file-upload-all.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/ng-file-upload-shim.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/ng-file-upload-shim.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/app/orderBy.js') }}"></script>
+    
     <script src="{{ asset('app/controllers/membersController.js') }}"></script>
 
     <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
@@ -122,10 +128,14 @@
                                         ng-show="formMember.age.$dirty && formMember.age.$error.pattern">Age must be a number
                                     </span>
                                 </div>
-                                <div>
+                                <div class="form-group">
                                     <label for="image">Photo</label>
-                                    <input type="file" name="image" id = "image" accept="image/x-png,image/gif,image/jpeg" data-max-size="10240" file-model="member.image" ng-class="{' has-error': formMember.image.$dirty && formMember.image.$invalid} " accept="image/*" onchange="angular.element(this).scope().uploadImageUpdate(this.files)" >
-                                     <span class="help-inline validate-photo-update" ></span>
+                                    
+                                    <input type="file" ngf-select ng-model="member.image" name="image"  id="image" ngf-max-size="10MB" ngf-model-invalid="errorFile" class="upload" ngf-pattern="image/png,image/jpg,image/gif,image/jpeg" ngf-accept="'image/*'" file-model="member.image">
+
+                                    <span id="helpInline" class="help-inline" ng-show="formMember.image.$dirty && formMember.image.$error.pattern">Image only support: png; jpg; jpeg; gif.</span>
+                                    <span id="helpInline" class="help-inline" ng-show="formMember.image.$dirty && formMember.image.$error.maxSize">File too large: max 10MB
+                                    </span>
                                 </div>
                             </form>
                         </div>
@@ -184,13 +194,18 @@
                                     </span>
                                 </div>
                                 <div class="form-group">
-                                  <label class="control-label">Old Photo</label>
-                                  <img src="../public/images/@{{editMember.image}}" ng-hide="editMember.image == null||editMember.image == ''" class="img-reponsive" width="150px">
+                                    <label class="control-label">Old Photo</label>
+                                    <p></p>
+                                    <img src="../public/images/@{{editMember.image}}" ng-hide="editMember.image == null||editMember.image == ''" class="img-reponsive" width="150px">
                                 </div>
                                 <div class="form-group">
-                                  <label class="control-label">New Photo</label>
-                                  <input type="file" file-model="editMember.newImage" id="newImage" accept="image/*"   name="image"  ng-class="{' has-error': frmMembers.image.$dirty && frmMembers.image.$invalid} " accept="image/*" onchange="angular.element(this).scope().uploadImageUpdate(this.files)" >
-                                    <span class="help-inline validate-photo-update" ></span>
+                                    <label for="image">Photo</label>
+                                    
+                                    <input type="file" ngf-select ng-model="editMember.newImage" name="newImage"  id="newImage" ngf-max-size="10MB" ngf-model-invalid="errorFile" class="upload" ngf-pattern="image/png,image/jpg,image/gif,image/jpeg" ngf-accept="'image/*'" file-model="editMember.newImage">
+
+                                    <span id="helpInline" class="help-inline" ng-show="frmMembers.newImage.$error.pattern">Image only support: png; jpg; jpeg; gif.</span>
+                                    <span id="helpInline" class="help-inline" ng-show="frmMembers.newImage.$error.maxSize">File too large: max 10MB
+                                    </span>
                                 </div>
 
                             </form>
@@ -206,19 +221,17 @@
             
             <!-- Delete Member -->
             <div class="modal fade " id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteMember(idDelete)"><i class="glyphicon glyphicon-trash"></i> Delete</button>
+                    </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-danger" ng-click="deleteMember(idDelete)"><i class="glyphicon glyphicon-trash"></i> Delete</button>
-                </div>
-              </div>
             </div>
-          </div>
-
-
     </body>
 </html>

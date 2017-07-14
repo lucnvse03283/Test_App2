@@ -19,6 +19,7 @@ app.directive('fileModel', ['$parse', function($parse) {
 
 app.controller('membersController', function($scope, $http, API_URL, toastr) {
     $scope.member=[];
+    $scope.editMember=[];
     //retrieve list members
     $http({
         method: 'GET',
@@ -32,43 +33,8 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
     $scope.sortType     = 'id'; // set the default sort type
     $scope.sortReverse  = false;  // set the default sort order
     
-    $scope.fileNameChaged = function(element)
-    {
-        var reader = new FileReader();
-        reader.onload = function(e)
-        {
-            $scope.$apply(function()
-            {
-                $scope.imageSource = e.target.result;
-            });
-        }
-        reader.readAsDataURL(element.files[0]);
-    }
-
-    $scope.uploadImageUpdate = function (files) {           
-        var ext = files[0].name.match(/.*\.(.+)$/)[1];
-        if(angular.lowercase(ext) =='jpg' || angular.lowercase(ext) =='jpeg' || angular.lowercase(ext) =='png'){
-            if(files[0].size<10240000){
-
-                $(".validate-photo-update").html("");
-                if ($scope.frmMembers.$valid) {
-                    $("#btn-save").removeAttr("disabled");
-                }
-                if ($scope.formMember.$valid) {
-                    $("#btn-create").removeAttr("disabled");
-                }
-            } else{
-                $(".validate-photo-update").html("Image max size 10MB!");
-                $("#btn-save").attr("disabled","disabled");
-                $("#btn-create").attr("disabled","disabled");
-            } 
-        } else{
-            $(".validate-photo-update").html("Image Invalid!");
-            $("#btn-save").attr("disabled","disabled");
-         } 
-    }
- 
-   //show form create and edit
+    
+    //show form create and edit
     $scope.toggle = function(modalstate, id) {
         $scope.modalstate = modalstate;
 
@@ -78,26 +44,25 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
                 $scope.member.address="";
                 $scope.member.age="";
                 $scope.member.image="";
-                $('#modalCreate').modal('show');
-                $("#modalCreate input textarea").val("");
                 $('#image').val('');
-                $(".validate-photo-update").html("");
+                
                 $scope.formMember.$setPristine();
+                $("#modalCreate input textarea").val("");
+                $('#modalCreate').modal('show');          
                 $scope.form_title = "Add New Member";
                 break;
             case 'edit':
+                $scope.editMember.newImage ="";
                 $('#modalEdit').modal('show');
                 $('#newImage').val('');
-                $(".validate-photo-update").html("");
                 $scope.form_title = "Member Infomation";
                 $scope.id = id;
                 
-
                 $http({
                     method: 'GET',
                     url: API_URL + 'member/' +id
                 }).then(function successCallback(response) {
-                    //console.log(response.data);
+                    console.log(response.data);
                     $scope.editMember = response.data;
                 }, function errorCallback(response) {
                     console.log(response);
@@ -129,6 +94,7 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
     $scope.save = function (modalstate, member) {
         var url_save = API_URL + "member/store";
         var file = $scope.member.image;
+    
         var fd = new FormData();
         fd.append('image', file);
         fd.append("name", $scope.member.name);
@@ -146,14 +112,15 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
             $('#image').val('');
             $scope.refresh();
         }, function errorCallback(response) {
+            console.log(response);
             $scope.member={};
             $('#image').val('');
             angular.element(document.querySelector('#modalCreate')).modal('hide');
             toastr.warning('Member create Fail.', 'Success Alert', {timeOut: 5000});
             $scope.refresh();
         });
-
     }
+
     // update data in form
     $scope.update = function (modalstate, id) {
         var url_save = API_URL + "member/" +id +"/update";
@@ -189,21 +156,21 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
 
     // delete member
     $scope.deleteMember=function(id){
-    var isConfirmDelete = confirm('Are you sure you want this record?');
-    if (isConfirmDelete) {
-        $http({
-        method:'POST',
-        url: API_URL + 'member/' + id + '/destroy',
-        data:$.param($scope.deleteMember),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function (response) {
-            // console.log(response);
-            $scope.refresh();
-            $('#deleteModal').modal('hide');
-            toastr.warning('You have been deleted a member.', 'Success Alert', {timeOut: 5000});
-          }, function (response) {
-            // console.log(response);
-          });
+        var isConfirmDelete = confirm('Are you sure you want this record?');
+        if (isConfirmDelete) {
+            $http({
+            method:'POST',
+            url: API_URL + 'member/' + id + '/destroy',
+            data:$.param($scope.deleteMember),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (response) {
+                // console.log(response);
+                $scope.refresh();
+                $('#deleteModal').modal('hide');
+                toastr.warning('You have been deleted a member.', 'Success Alert', {timeOut: 5000});
+            }, function (response) {
+                // console.log(response);
+            });
         }
     }
     
