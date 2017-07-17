@@ -41,6 +41,12 @@ class MembersController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'address' => 'required|max:300',
+            'age' => 'required|digits_between:1,2',
+            'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10240',
+        ]);
         $input_data = $request->all();
 
         $member = new Member;
@@ -95,7 +101,12 @@ class MembersController extends Controller
     public function update(Request $request, $id)
     {
         //
-
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'address' => 'required|max:300',
+            'age' => 'required|digits_between:1,2',
+            'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10240',
+        ]);
         $input_data = $request->all();
 
         $member = Member::find($id);
