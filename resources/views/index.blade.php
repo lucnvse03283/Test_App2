@@ -102,6 +102,11 @@
                                         ng-show="formMember.name.$error.required && formMember.name.$touched && formMember.name.$dirty">Name field is required</span>
                                         <span class="help-inline" 
                                         ng-show="formMember.name.$dirty && formMember.name.$error.maxlength">Name field is maximum 100 characters</span>
+                                        @if ($errors->has('name'))
+                                            <span class="help-block">
+                                                <danger>{{ $errors->first('name') }}</danger>
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -114,6 +119,11 @@
                                     <span class="help-inline" 
                                         ng-show="formMember.address.$dirty && formMember.address.$error.maxlength">Address field is maximum 300 characters
                                     </span>
+                                    @if ($errors->has('address'))
+                                            <span class="help-block">
+                                                <danger>{{ $errors->first('address') }}</danger>
+                                            </span>
+                                        @endif
                                 </div>
                                 <div class="form-group">
                                     <label for="age">Age</label>
@@ -127,6 +137,11 @@
                                     <span class="help-inline" 
                                         ng-show="formMember.age.$dirty && formMember.age.$error.pattern">Age must be a number
                                     </span>
+                                    @if ($errors->has('age'))
+                                        <span class="help-block">
+                                            <danger>{{ $errors->first('age') }}</danger>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Photo</label>
@@ -136,6 +151,11 @@
                                     <span id="helpInline" class="help-inline" ng-show="formMember.image.$dirty && formMember.image.$error.pattern">Image only support: png; jpg; jpeg; gif.</span>
                                     <span id="helpInline" class="help-inline" ng-show="formMember.image.$dirty && formMember.image.$error.maxSize">File too large: max 10MB
                                     </span>
+                                    @if ($errors->has('image'))
+                                        <span class="help-block">
+                                            <danger>{{ $errors->first('image') }}</danger>
+                                        </span>
+                                    @endif
                                 </div>
                             </form>
                         </div>
