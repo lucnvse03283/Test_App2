@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use DB;
+use App\Http\Requests\MemberRequest;
 
 class MembersController extends Controller
 {
@@ -39,14 +40,8 @@ class MembersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MemberRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:100',
-            'address' => 'required|max:300',
-            'age' => 'required|digits_between:1,2',
-            'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10240',
-        ]);
         $input_data = $request->all();
 
         $member = new Member;
@@ -64,8 +59,9 @@ class MembersController extends Controller
             $member->image = "";
         }
         $member->save();
-
+        
         return "Create member successfully";
+
     }
 
     /**
@@ -98,15 +94,9 @@ class MembersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MemberRequest $request, $id)
     {
         //
-        $this->validate($request, [
-            'name' => 'required|max:100',
-            'address' => 'required|max:300',
-            'age' => 'required|digits_between:1,2',
-            'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10240',
-        ]);
         $input_data = $request->all();
 
         $member = Member::find($id);

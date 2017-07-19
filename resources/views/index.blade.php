@@ -97,16 +97,12 @@
                                     <label for="inputEmail3">Name</label>
                                     <div>
                                         <input type="text" class="form-control has-error" id="name" name="name" placeholder="Enter Name" 
-                                        ng-model="member.name" ng-required="true" ng-maxlength=100>
+                                        ng-model="member.name" ng-required="true" ng-maxlength=100 required>
                                         <span class="help-inline" 
-                                        ng-show="formMember.name.$error.required && formMember.name.$touched && formMember.name.$dirty">Name field is required</span>
+                                        ng-show="formMember.name.$error.required && formMember.name.$touched && formMember.name.$dirty || isEmptyName">Name field is required</span>
                                         <span class="help-inline" 
                                         ng-show="formMember.name.$dirty && formMember.name.$error.maxlength">Name field is maximum 100 characters</span>
-                                        @if ($errors->has('name'))
-                                            <span class="help-block">
-                                                <danger>{{ $errors->first('name') }}</danger>
-                                            </span>
-                                        @endif
+                                        
                                     </div>
                                 </div>
 
@@ -114,22 +110,18 @@
                                     <label for ="address">Address</label>
                                     <textarea class="form-control" name = "address" rows="2" placeholder="Enter Address" ng-model= "member.address" ng-required="true" ng-maxlength=300></textarea>
                                     <span class="help-inline" 
-                                        ng-show="formMember.address.$error.required && formMember.address.$touched && formMember.address.$dirty">Address field is required
+                                        ng-show="formMember.address.$error.required && formMember.address.$touched && formMember.address.$dirty || isEmptyAddress">Address field is required
                                     </span>
                                     <span class="help-inline" 
                                         ng-show="formMember.address.$dirty && formMember.address.$error.maxlength">Address field is maximum 300 characters
                                     </span>
-                                    @if ($errors->has('address'))
-                                            <span class="help-block">
-                                                <danger>{{ $errors->first('address') }}</danger>
-                                            </span>
-                                        @endif
+                                    
                                 </div>
                                 <div class="form-group">
                                     <label for="age">Age</label>
                                     <input type="text" class="form-control" id = "age" name="age" placeholder="Enter Age" ng-model="member.age" ng-required="true" ng-pattern="/^\d{0,9}(\.\d{1,9})?$/" ng-maxlength=2>
                                     <span class="help-inline" 
-                                        ng-show="formMember.age.$error.required && formMember.age.$touched && formMember.age.$dirty">Age field is required
+                                        ng-show="formMember.age.$error.required && formMember.age.$touched && formMember.age.$dirty || isEmptyAge">Age field is required
                                     </span>
                                     <span class="help-inline" 
                                         ng-show="formMember.age.$dirty && formMember.age.$error.maxlength">Age field is maximum 2 digits
@@ -137,11 +129,7 @@
                                     <span class="help-inline" 
                                         ng-show="formMember.age.$dirty && formMember.age.$error.pattern">Age must be a number
                                     </span>
-                                    @if ($errors->has('age'))
-                                        <span class="help-block">
-                                            <danger>{{ $errors->first('age') }}</danger>
-                                        </span>
-                                    @endif
+                                    
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Photo</label>
@@ -151,16 +139,12 @@
                                     <span id="helpInline" class="help-inline" ng-show="formMember.image.$dirty && formMember.image.$error.pattern">Image only support: png; jpg; jpeg; gif.</span>
                                     <span id="helpInline" class="help-inline" ng-show="formMember.image.$dirty && formMember.image.$error.maxSize">File too large: max 10MB
                                     </span>
-                                    @if ($errors->has('image'))
-                                        <span class="help-block">
-                                            <danger>{{ $errors->first('image') }}</danger>
-                                        </span>
-                                    @endif
+                                    
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn-create" name="btn-create" ng-click="save(modalstate, id)" ng-disabled="formMember.$invalid" >Save changes</button>
+                            <button type="submit" class="btn btn-primary" id="btn-create" name="btn-create" ng-click="save(modalstate, id)" ng-disabled="formMember.$invalid" >Save changes</button>
                         </div>
                     </div>
                     
@@ -186,7 +170,7 @@
                                         <input type="text" class="form-control has-error" id="name" name="name" placeholder="Enter Name" 
                                         ng-model="editMember.name" ng-required="true" ng-maxlength = 100>
                                         <span class="help-inline" 
-                                        ng-show="frmMembers.name.$invalid && frmMembers.name.$touched">Name field is required</span>
+                                        ng-show="frmMembers.name.$invalid && frmMembers.name.$touched || isEmptyName">Name field is required</span>
                                         <span class="help-block" 
                                         ng-show="frmMembers.name.$dirty && frmMembers.name.$error.maxlength">Name field is maximum 100 characters</span>
                                     </div>
@@ -194,17 +178,19 @@
 
                                 <div class="form-group">
                                     <label for ="address">Address</label>
-                                    <textarea class="form-control" name = "address" rows="2" placeholder="Enter Address" ng-model= "editMember.address" ng-maxlength = 300></textarea>
-                                    <span class="help-inline" 
-                                        ng-show="frmMembers.address.$invalid && frmMembers.address.$touched">Address field is required</span>
+                                    <div>
+                                        <textarea class="form-control" name = "address" rows="2" placeholder="Enter Address" ng-model= "editMember.address" ng-maxlength = 300 ng-required="true"></textarea>
                                         <span class="help-inline" 
-                                        ng-show="frmMembers.address.$dirty && frmMembers.address.$error.maxlength">Address field is maximum 300 characters</span>
+                                            ng-show="frmMembers.address.$invalid && frmMembers.address.$touched && frmMembers.address.$dirty || isEmptyAddress">Address field is required</span>
+                                        <span class="help-inline" 
+                                            ng-show="frmMembers.address.$dirty && frmMembers.address.$error.maxlength">Address field is maximum 300 characters</span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="age">Age</label>
                                     <input type="text" class="form-control" id = "age" name="age" placeholder="Enter Age" ng-model="editMember.age" ng-required="true" ng-pattern="/^\d{0,9}(\.\d{1,9})?$/" ng-maxlength=2>
                                     <span class="help-inline" 
-                                        ng-show="frmMembers.age.$error.required && frmMembers.age.$touched && frmMembers.age.$dirty">Age field is required
+                                        ng-show="frmMembers.age.$error.required && frmMembers.age.$touched && frmMembers.age.$dirty || isEmptyAddress">Age field is required
                                     </span>
                                     <span class="help-inline" 
                                         ng-show="frmMembers.age.$dirty && frmMembers.age.$error.maxlength">Age field is maximum 2 digits
