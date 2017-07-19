@@ -92,64 +92,79 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
 
     //save data in form
     $scope.save = function (modalstate, member) {
-        var url_save = API_URL + "member/store";
-        var file = $scope.member.image;
-    
-        var fd = new FormData();
-        fd.append('image', file);
-        fd.append("name", $scope.member.name);
-        fd.append("address", $scope.member.address);
-        fd.append("age", $scope.member.age);
-        $http.post(url_save, fd, {
-            withCredentials: true,
-            headers: {'Content-Type': undefined },
-            transformRequest: angular.identity
-        }).then(function successCallback(response) {
-            console.log(response.data);
-            toastr.success('Member create Success.', 'Success Alert', {timeOut: 5000});
-            $scope.member={};
-            angular.element(document.querySelector('#modalCreate')).modal('hide');
-            $('#image').val('');
-            $scope.refresh();
-        }, function errorCallback(response) {
-            console.log(response);
-            $scope.member={};
-            $('#image').val('');
-            angular.element(document.querySelector('#modalCreate')).modal('hide');
-            toastr.warning('Member create Fail.', 'Success Alert', {timeOut: 5000});
-            $scope.refresh();
-        });
+        if ($scope.formMember.$valid) {
+            var url_save = API_URL + "member/store";
+            var file = $scope.member.image;
+        
+            var fd = new FormData();
+            fd.append('image', file);
+            fd.append("name", $scope.member.name);
+            fd.append("address", $scope.member.address);
+            fd.append("age", $scope.member.age);
+            $http.post(url_save, fd, {
+                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                toastr.success('Member create Success.', 'Success Alert', {timeOut: 5000});
+                $scope.member={};
+                angular.element(document.querySelector('#modalCreate')).modal('hide');
+                $('#image').val('');
+                $scope.refresh();
+            }, function errorCallback(response) {
+                console.log(response);
+                $scope.member={};
+                $('#image').val('');
+                angular.element(document.querySelector('#modalCreate')).modal('hide');
+                toastr.warning('Member create Fail.', 'Warning Alert', {timeOut: 5000});
+                $scope.refresh();
+            });
+        } else {
+            $scope.isEmptyName = $scope.formMember.name.$error.required;
+            $scope.isEmptyAddress = $scope.formMember.address.$error.required;
+            $scope.isEmptyAge = $scope.formMember.age.$error.required;
+        }
+
+        
     }
 
     // update data in form
     $scope.update = function (modalstate, id) {
-        var url_save = API_URL + "member/" +id +"/update";
-        var file = $scope.editMember.image;
-        if ($scope.editMember.newImage != null) {
-            file = $scope.editMember.newImage;
+        if ($scope.frmMembers.$valid) {
+            var url_save = API_URL + "member/" +id +"/update";
+            var file = $scope.editMember.image;
+            if ($scope.editMember.newImage != null) {
+                file = $scope.editMember.newImage;
+            }
+            var fd = new FormData();
+            fd.append('image', file);
+            fd.append("name", $scope.editMember.name);
+            fd.append("address", $scope.editMember.address);
+            fd.append("age", $scope.editMember.age);
+            $http.post(url_save, fd, {
+                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                toastr.success('Member Update Success.', 'Success Alert', {timeOut: 5000});
+                $scope.editMember={};
+                $('#image').val('');
+                angular.element(document.querySelector('#modalEdit')).modal('hide');
+                $scope.refresh();
+            }, function errorCallback(response) {
+                //console.log(response);
+                toastr.success('Member Update Fail.', 'Warning Alert', {timeOut: 5000});
+                $scope.editMember={};
+                
+            });
+        } else {
+            $scope.isEmptyName = $scope.frmMembers.name.$error.required;
+            $scope.isEmptyAddress = $scope.frmMembers.address.$error.required;
+            $scope.isEmptyAge = $scope.frmMembers.age.$error.required;
         }
-        var fd = new FormData();
-        fd.append('image', file);
-        fd.append("name", $scope.editMember.name);
-        fd.append("address", $scope.editMember.address);
-        fd.append("age", $scope.editMember.age);
-        $http.post(url_save, fd, {
-            withCredentials: true,
-            headers: {'Content-Type': undefined },
-            transformRequest: angular.identity
-        }).then(function successCallback(response) {
-            console.log(response.data);
-            toastr.success('Member Update Success.', 'Success Alert', {timeOut: 5000});
-            $scope.editMember={};
-            $('#image').val('');
-            angular.element(document.querySelector('#modalEdit')).modal('hide');
-            $scope.refresh();
-        }, function errorCallback(response) {
-            //console.log(response);
-            toastr.success('Member Update Fail.', 'Success Alert', {timeOut: 5000});
-            $scope.editMember={};
-            
-        });
+        
 
     }
 
@@ -167,7 +182,7 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
                 // console.log(response);
                 $scope.refresh();
                 $('#deleteModal').modal('hide');
-                toastr.warning('You have been deleted a member.', 'Success Alert', {timeOut: 5000});
+                toastr.warning('You have been deleted a member.', 'Warning Alert', {timeOut: 5000});
             }, function (response) {
                 // console.log(response);
             });
