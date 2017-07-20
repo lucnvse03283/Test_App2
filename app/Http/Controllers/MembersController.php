@@ -60,7 +60,10 @@ class MembersController extends Controller
         }
         $member->save();
         
-        return "Create member successfully";
+        return response()->json([
+            'error' => true,
+            'messages' => 'Create member successfully'
+        ]);
 
     }
 
@@ -94,8 +97,14 @@ class MembersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MemberRequest $request, $id)
-    {
+    public function update(Request $request, $id)
+    {   
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'address' => 'required|max:300',
+            'age' => 'required|digits_between:1,2|regex:/^\d{0,9}(\.\d{1,9})?$/',
+        ]);
+
         //
         $input_data = $request->all();
 

@@ -18,3 +18,7 @@ Route::get('/member/{id?}', 'MembersController@index')->name('member_index');
 Route::post('/member/store','MembersController@store')->name('member_store');
 Route::post('/member/{id}/update', 'MembersController@update');
 Route::post('/member/{id}/destroy', 'MembersController@destroy');
+
+Route::get('/test', function () {
+	return "hello";
+});

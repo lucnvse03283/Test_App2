@@ -32,6 +32,29 @@ img {
 		width: auto;
 	}
 }
+@media only screen and (max-width: 1030px) {
+	button {
+		width: auto;
+		text-align: center;
+	}
+	button.btn-edit {
+		padding: 8px;
+		width: auto;
+		text-align: center;
+	}
+	button.btn-delete {
+		padding: 8px;
+		width: auto;
+		text-align: center;
+	}
+	table {
+		text-align: center;
+		margin: auto;
+	}
+	table thead tr th {
+		text-align: center;
+	}
+}
 
 @media only screen and (max-width: 768px) {
   	button.btn-add {

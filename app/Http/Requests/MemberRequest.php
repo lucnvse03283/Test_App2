@@ -28,7 +28,7 @@ class MemberRequest extends FormRequest
             'name' => 'required|max:100',
             'address' => 'required|max:300',
             'age' => 'required|digits_between:1,2|regex:/^\d{0,9}(\.\d{1,9})?$/',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:10240',
+            'image' => 'nullable|image|mimes:png,jpeg,gif|max:10240',
         ];
         return $rules;
     }
