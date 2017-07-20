@@ -43,7 +43,7 @@ class MembersController extends Controller
     public function store(MemberRequest $request)
     {
         $input_data = $request->all();
-
+        $test;
         $member = new Member;
         $member->name = $input_data["name"];
         $member->address = $input_data["address"];
@@ -60,7 +60,10 @@ class MembersController extends Controller
         }
         $member->save();
         
-        return "Create member successfully";
+        return response()->json([
+            'error' => true,
+            'messages' => 'Create member successfully'
+        ]);
 
     }
 
