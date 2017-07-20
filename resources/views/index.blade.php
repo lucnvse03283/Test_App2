@@ -31,8 +31,8 @@
         
         <div  ng-controller="membersController" class="top">
             <div class="row">
-                <div class="col-xs-3 col-md-5"></div>
-                <div class="col-xs-3 col-md-5"><h2>Member Infomation</h2></div>
+                <div class="col-xs-4 col-md-5"></div>
+                <div class="col-xs-5 col-md-5"><h2>Member Infomation</h2></div>
             </div>
             <div class="row">
                 <div class="col-xs-2 col-md-2"></div>
@@ -44,24 +44,24 @@
             <!-- Table-to-load-the-data Part -->
             
             <div class="col-xs-2 col-md-2"></div>
-            <div class="col-xs-8 col-md-8">
+            <div class="col-xs-9 col-md-9">
                 <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th href="#" ng-click="sortType = 'id'">ID</th>
-                            <th href="#" ng-click="sortType = 'name'">
+                            <th style="text-align:center" href="#" ng-click="sortType = 'id'" class="col-xs-1 col-md-1">ID</th>
+                            <th href="#" ng-click="sortType = 'name'" class="col-xs-2 col-md-2">
                             Name
                             <span ng-show="sortType == 'name'" class="fa fa-caret-down"></span>
                             </th>
-                            <th href="#" ng-click="sortType = 'address'">
+                            <th href="#" ng-click="sortType = 'address'" class="col-xs-3 col-md-3">
                             Address
                             <span ng-show="sortType == 'address'" class="fa fa-caret-down"></span>
                             </th>
-                            <th href="#" ng-click="sortType = 'age'">Age</th>
+                            <th href="#" ng-click="sortType = 'age'" class="col-xs-2 col-md-1">Age</th>
                             <span ng-show="sortType == 'age'" class="fa fa-caret-down"></span>
-                            <th>Photo</th>
-                            <th>Action</th>
+                            <th class="col-xs-2 col-md-2">Photo</th>
+                            <th class="col-xs-2 col-md-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,8 +72,8 @@
                             <td>@{{ member.age }}</td>
                             <td><img src="../public/images/@{{member.image}}"/></td>
                             <td>
-                                <button class="btn btn-default btn-md btn-detail" ng-click="toggle('edit', member.id)">Edit</button>
-                                <button class="btn btn-danger btn-md btn-delete" ng-click="deleteMember(member.id)">Delete</button>
+                                <button class="btn btn-default btn-edit" ng-click="toggle('edit', member.id)">Edit</button>
+                                <button class="btn btn-danger btn-delete" ng-click="deleteMember(member.id)">Delete</button>
                             </td>
                         </tr>
                     </tbody>

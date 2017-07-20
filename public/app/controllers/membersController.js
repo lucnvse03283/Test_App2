@@ -97,7 +97,7 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
             var file = $scope.member.image;
         
             var fd = new FormData();
-            fd.append('image', file);
+            fd.append("image", file);
             fd.append("name", $scope.member.name);
             fd.append("address", $scope.member.address);
             fd.append("age", $scope.member.age);
@@ -134,11 +134,12 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
         if ($scope.frmMembers.$valid) {
             var url_save = API_URL + "member/" +id +"/update";
             var file = $scope.editMember.image;
+
             if ($scope.editMember.newImage != null) {
                 file = $scope.editMember.newImage;
-            }
+            } 
             var fd = new FormData();
-            fd.append('image', file);
+            fd.append("image", file);
             fd.append("name", $scope.editMember.name);
             fd.append("address", $scope.editMember.address);
             fd.append("age", $scope.editMember.age);
@@ -155,7 +156,7 @@ app.controller('membersController', function($scope, $http, API_URL, toastr) {
                 $scope.refresh();
             }, function errorCallback(response) {
                 //console.log(response);
-                toastr.success('Member Update Fail.', 'Warning Alert', {timeOut: 5000});
+                toastr.warning('Member Update Fail.', 'Warning Alert', {timeOut: 5000});
                 $scope.editMember={};
                 
             });
